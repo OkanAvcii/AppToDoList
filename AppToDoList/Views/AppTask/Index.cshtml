@@ -1,0 +1,86 @@
+﻿@model IEnumerable<AppToDoList.Models.VMs.AppTaskListVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+@foreach (var item in Model)
+{
+    TimeSpan span = item.DueDate - DateTime.Now;
+
+    if (span.TotalDays < 1)
+    {
+        <p class="bg-warning text-center">Acil bir göreviniz var.</p>
+    }
+    else
+    {
+        <p class="bg-success text-center">Acil bir görev yok</p>
+    }
+}
+
+
+<p>
+    <a asp-action="Create">Create New Task</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCompleted)
+                @* <div class="form-group">
+                <label asp-for="@Model" class="control-label"></label>
+                <select asp-for="" class="form-select" asp-items="Model.IsCompletedForDropDown">
+                <option value="1"> All</option>
+                <option value="2"> Completed</option>
+                <option value="3"> Not Completed</option>
+                </select>
+                <span asp-validation-for="Order.CustomerId" class="text-danger"></span>
+                </div> *@
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Priority)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+                        <label class="form-check-label" asp-for="@item.IsCompleted">Completed</label>
+                    </div>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
